@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     int[] gamestate = {2,2,2,2,2,2,2,2,2,2};
     int[][] winningPositions = {{0,1,2}, {3,4,5}, {6,7,8}, {0,4,8}, {0,3,6}, {1,4,7}, {2,5,8}, {2,4,6}};
     boolean flag = false;
+    int count = 0;
 
     // 0-red; 1-yellow; 2-blank
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView counter = (ImageView) view;
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
-        if (flag == false ) {
+        if (!flag ) {
 
             if (gamestate[tappedCounter] == 2) {
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (gamestate[winningPosition[0]] == gamestate[winningPosition[1]] && gamestate[winningPosition[1]] == gamestate[winningPosition[2]] && gamestate[winningPosition[0]] != 2) {
 
-                        String message = "";
+                        String message;
                         if (activeplayer == 0)
                             message = "Yellow has won";
                         else
@@ -71,9 +72,24 @@ public class MainActivity extends AppCompatActivity {
                         button.setVisibility(View.VISIBLE);
                     }
                 }
+                count++;
+                Log.i("loop count", Integer.toString(count));
             }
             else
                 Toast.makeText(this, "Please tap on empty tiles!!!", Toast.LENGTH_SHORT).show();
+            Log.i("loopout count", Integer.toString(count));
+
+            if (count==gamestate.length-1 && !flag) {
+
+                flag = true;
+                TextView textView = (TextView) findViewById(R.id.textView);
+                Button button = (Button) findViewById(R.id.button);
+
+                textView.setText("Match Draw");
+                textView.setVisibility(View.VISIBLE);
+
+                button.setVisibility(View.VISIBLE);
+            }
         }
         else
             Toast.makeText(this, "Game Over!!!", Toast.LENGTH_SHORT).show();
@@ -99,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         activeplayer = 0;
         flag = false;
+        count = 0;
 
     }
 
